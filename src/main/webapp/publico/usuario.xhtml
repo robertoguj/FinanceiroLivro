@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/templates/interna.xhtml">
+	<ui:define name="titulo">
+		Cadastro de Usuários
+	</ui:define>
+	<ui:define name="corpo">
+
+		<h:form id="cadastro" acceptcharset="UTF-8">
+			<h:messages />
+			<h:inputHidden value="#{usuarioMB.usuario.codigo}" />
+			<h:inputHidden value="#{usuarioMB.usuario.ativo}" />
+			<h:inputHidden value="#{usuarioMB.destinoSalvar}" />
+
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Nome:" for="nome" />
+				<h:inputText id="nome" label="Nome"
+					value="#{usuarioMB.usuario.nome}" required="true" size="30"
+					maxlength="30" requiredMessage="Nome obrigatório">
+					<f:validateLength minimum="10" maximum="30" />
+				</h:inputText>
+
+				<h:outputLabel value="Data Nascimento:" for="data" />
+				<h:inputText id="data" label="Data Nascimento"
+					value="#{usuarioMB.usuario.nascimento}">
+					<f:convertDateTime dateStyle="medium" />
+				</h:inputText>
+
+				<h:outputLabel value="Celular:" for="celular" />
+				<h:inputText id="celular" label="Celular"
+					value="#{usuarioMB.usuario.celular}">
+					<f:validateRegex
+						pattern="^(\(?(\d{2})\)?\s?-?\s?(\d{4}|\d{5})\s?-?\s?(\d{4}))$" />
+				</h:inputText>
+
+				<h:outputLabel value="Email:" for="email" />
+				<h:panelGroup>
+					<h:inputText id="email" label="Email" size="50" maxlength="50"
+						required="true" value="#{usuarioMB.usuario.email}"
+						validatorMessage="Email inválido"
+						requiredMessage="Email obrigatório">
+						<f:validateRegex pattern="[a-zA-Z0-9\-\_\.]+@[a-zA-Z0-9\-\_\.]+" />
+					</h:inputText>
+					<br />
+				</h:panelGroup>
+
+				<h:outputLabel value="Idioma:" for="idioma" />
+				<h:selectOneMenu id="idioma" value="#{usuarioMB.usuario.idioma}">
+					<f:selectItems value="#{usuarioMB.idiomas}" var="item"
+						itemValue="#{item.sigla}" itemLabel="#{item.descricao}" />
+				</h:selectOneMenu>
+
+				<h:outputLabel value="Login:" for="login" />
+				<h:inputText id="login" label="Login"
+					value="#{usuarioMB.usuario.login}" size="15" maxlength="15"
+					required="true" requiredMessage="Login obrigatório"
+					validatorMessage="Login deve ter no mínimo 5 e no máximo 15 caracteres e só pode ter os símbolos '.' e '_' ">
+					<f:validateRegex pattern="([a-z]|[0-9]|[.]|[_]){5,15}" />
+				</h:inputText>
+
+				<h:outputLabel value="Senha:" for="senha" />
+				<h:inputSecret id="senha" label="Senha"
+					value="#{usuarioMB.usuario.senha}" required="true" size="10"
+					maxlength="10" redisplay="true" requiredMessage="Senha obrigatório" />
+
+				<h:outputLabel value="Confirmar senha:" for="confirmarSenha" />
+				<h:inputSecret id="confirmarSenha" label="Confirmar senha"
+					value="#{usuarioMB.confirmarSenha}" required="true" size="10"
+					maxlength="10" redisplay="true"
+					requiredMessage="Confirmar senha obrigatório" />
+
+			</h:panelGrid>
+
+			<h:panelGroup rendered="#{empty usuarioMB.usuario.codigo}">
+				<fieldset>
+					<legend>Conta Inicial</legend>
+					<h:panelGrid columns="2">
+						<h:outputLabel value="Descrição: " for="descricao" />
+						<h:inputText id="descricao" label="Descrição"
+							value="#{usuarioMB.conta.descricao}" required="true"
+							maxlength="45" />
+
+						<h:outputLabel value="Saldo Inicial: " for="saldoInicial" />
+						<h:inputText id="saldoInicial"
+							value="#{usuarioMB.conta.saldoInicial}" size="10">
+							<f:convertNumber minFractionDigits="2" />
+						</h:inputText>
+					</h:panelGrid>
+				</fieldset>
+			</h:panelGroup>
+
+			<br />
+			<h:commandButton action="#{usuarioMB.salvar}" value="Salvar" />
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

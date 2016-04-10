@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags">
+
+<ui:composition template="/templates/externa.xhtml">
+	<ui:define name="corpo">
+
+		<h1>Gerenciador Financeiro Pessoal</h1>
+	
+	Usuário logado #{request.remoteUser} 
+	<br />
+		<h:form>
+
+			<h:commandButton value="Contas" action="/restrito/conta" />
+			<h:selectOneMenu value="#{contextoBean.contaAtiva.conta}"
+				valueChangeListener="#{contextoBean.changeContaAtiva}"
+				rendered="#{not empty contextoBean and not empty contextoBean.contaAtiva}"
+				onchange="submit()">
+				<f:selectItems value="#{contaMB.lista}" var="conta"
+					itemValue="#{conta.conta}" itemLabel="#{conta.descricao}" />
+			</h:selectOneMenu>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>
