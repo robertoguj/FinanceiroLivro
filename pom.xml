@@ -133,6 +133,7 @@
 		</pluginManagement>
 	</build>
 	-->
+	<!-- TESTE -->
 	<build>
         <finalName>FinanceiroLivro</finalName>
         <plugins>
